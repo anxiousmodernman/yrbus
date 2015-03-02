@@ -1,0 +1,8 @@
+.idea
+node_modules
+bower_components
+yrbus/migrations
+yrbus/static/yrbus/bundled
+yrbus/static/yrbus/bootstrap
+*.sqlite3
+*.pyc

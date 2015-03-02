@@ -1,0 +1,29 @@
+{
+  "name": "yrbus",
+  "version": "0.0.0",
+  "homepage": "https://github.com/anxiousmodernman/yrbus",
+  "authors": [
+    "Coleman McFarland <coleman.mcfarland@gmail.com>"
+  ],
+  "description": "yr buses",
+  "keywords": [
+    "bus",
+    "transit",
+    "motion",
+    "movement"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.11.1",
+    "bootstrap": "~3.2.0",
+    "rest": "~1.2.0",
+    "cookies-js": "~0.4.0"
+  }
+}
