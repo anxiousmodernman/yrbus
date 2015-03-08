@@ -11,7 +11,9 @@ React.initializeTouchEvents(true);
 
 var BusStops = require('./components/busStops.jsx');
 var TopNavbar = require('./components/topNavbar.jsx');
-var StopSetup = require('./components/StopSetup.jsx');
+var StopSetup= require('./components/StopSetup.jsx').StopSetup;
+var GettingStarted = require('./components/StopSetup.jsx').GettingStarted;
+var EnterLocation = require('./components/StopSetup.jsx').EnterLocation;
 
 var App = React.createClass({
 
@@ -34,6 +36,11 @@ var routes = (
         <Route handler={App}>
             <DefaultRoute handler={BusStops} />
             <Route name="setup" handler={StopSetup}>
+                <Route name="gettingStarted"
+                    handler={GettingStarted} />
+                <Route name="enterLocation"
+                    handler={EnterLocation} />
+                <DefaultRoute handler={GettingStarted} />
             </Route>
         </Route>
 );

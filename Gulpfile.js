@@ -5,18 +5,10 @@ var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
-//var nodemon = require('gulp-nodemon');
-//var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
-//var args = require('yargs').argv;
-//var gutil = require('gulp-util');
 
 
 var paths = {
-    /*
-     * Set the path to the frontend app.
-     * Require will follow main.jsx to the React .jsx dependencies.
-     */
     frontedApp: './app/main.jsx',
     buildDir: './yrbus/static/yrbus/bundled/*/**'
 };
@@ -36,6 +28,11 @@ gulp.task('clean', function(cb) {
     del(paths.buildDir, cb);
 });
 
+gulp.task('setup', function() {
+    gulp.src('./bower_components/bootstrap/**/*')
+        .pipe(gulp.dest('./yrbus/static/yrbus/bootstrap'))
+})
+
 gulp.task('sass', function() {
      gulp.src('./app/styles/*.scss')
         .pipe(sass())
@@ -44,16 +41,6 @@ gulp.task('sass', function() {
 });
 
 gulp.task('default', ['build'],function() {
-    //var opts = {
-    //    script: 'app.js',
-    //    ext: 'js html scss jsx',
-    //    ignore: ['app/public/**'],
-    //    env: { 'NODE_ENV': 'development' }
-    //};
-    //nodemon(opts)
-    //    .on('start', ['build', 'test'], function() {
-    //        console.log('Restarting Server ******************');
-    //    });
 });
 
 

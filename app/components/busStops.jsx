@@ -34,7 +34,7 @@ var BusStops = React.createClass({
     render: function() {
     	var arrayLength = this.state.stops.length;
         if (arrayLength == 0) {
-           this.transitionTo('setup');
+           this.transitionTo('gettingStarted');
         }
         return <div>
             <GoogleMap />

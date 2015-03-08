@@ -1,5 +1,7 @@
 var React = require('react');
 var GoogleMap = require('./GoogleMap.jsx');
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
 
 
 var StopSetup = React.createClass({
@@ -11,38 +13,96 @@ var StopSetup = React.createClass({
         return state;
     },
 
-    _determineViewState: function() {
-        var view;
-        switch(this.state.viewState) {
-            case 'gettingStarted':
-                view = <GettingStarted />
-                break;
-        }
-        return view;
-    },
-
     render: function() {
 
-        var childView = this._determineViewState();
         return (
             <div>
+                <h1>I am the StopSetup parent</h1>
                 <GoogleMap />
-                {childView}
+                <RouteHandler />
             </div>
         )
     }
 });
 
 
-var GettingStarted = React.createClass({
+var ChooseRoutes = React.createClass({
+
+    mixins: [Router.Navigation],
 
     render: function() {
 
         return (
-            <h1>Getting Started</h1>
+            <h1>Choose Routes</h1>
         )
     }
 });
 
 
-module.exports = StopSetup;
+var ChooseStops = React.createClass({
+
+    mixins: [Router.Navigation],
+
+    render: function() {
+
+        return (
+            <h1>Choose Stops</h1>
+        )
+    },
+
+    handleClick: function() {
+        this.props.callback(this)
+    }
+});
+
+
+var EnterLocation = React.createClass({
+
+    mixins: [Router.Navigation],
+
+    render: function() {
+        var message = 'Let\'s Go!';
+        return (
+            <div>
+                <h1>Enter Location</h1>
+
+            </div>
+        )
+    },
+
+    handleClick: function() {
+        //this.props.callback(this)
+    }
+});
+
+
+var GettingStarted = React.createClass({
+
+    mixins: [Router.Navigation],
+
+    render: function() {
+        var message = 'Let\'s Go!';
+        return (
+            <div>
+                <h1>Getting Started</h1>
+                <button onClick={this.handleClick}>{'YEAH BABY'}</button>
+            </div>
+        )
+    },
+
+    handleClick: function() {
+        this.transitionTo('enterLocation');
+    }
+});
+
+
+var exported = {
+    EnterLocation: EnterLocation,
+    ChooseRoutes: ChooseRoutes,
+    ChooseStops: ChooseStops,
+    GettingStarted: GettingStarted,
+    StopSetup: StopSetup
+};
+
+
+module.exports = exported;

@@ -2,6 +2,20 @@
 
 An web app that tells helps you _not_ miss the bus. Built with Django REST Framework and React.
 
+## Project setup
+
+Assuming you have node, npm, gulp, and bower installed.
+
+```
+git clone https://github.com/anxiousmodernman/yrbus
+cd yrbus
+npm install     # maybe sudo :(
+bower install
+gulp setup      # one-time copy of front-end libs to django /static
+
+
+```
+
 
 
 ### Test data and various notes
@@ -38,3 +52,8 @@ https://api.wmata.com/Bus.svc/json/jStops?Lat=38.9305561&Lon=-77.0230006&Radius=
     }]
 }
 ```
+
+
+
+
+
