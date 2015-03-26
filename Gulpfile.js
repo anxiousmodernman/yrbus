@@ -13,8 +13,6 @@ var paths = {
     buildDir: './yrbus/static/yrbus/bundled/*/**'
 };
 
-
-
 gulp.task('build', ['clean', 'sass'], function() {
     browserify({entries: paths.frontedApp})
         .transform(reactify)
@@ -31,7 +29,7 @@ gulp.task('clean', function(cb) {
 gulp.task('setup', function() {
     gulp.src('./bower_components/bootstrap/**/*')
         .pipe(gulp.dest('./yrbus/static/yrbus/bootstrap'))
-})
+});
 
 gulp.task('sass', function() {
      gulp.src('./app/styles/*.scss')
