@@ -2,25 +2,37 @@
 
 An web app that tells helps you _not_ miss the bus. Built with Django REST Framework and React.
 
-## Project setup
+## Frontend (JavaScript) project setup
 
 Assuming you have node, npm, gulp, and bower installed.
 
+```bash
+$ git clone https://github.com/anxiousmodernman/yrbus
+$ cd yrbus
+$ npm install     # maybe sudo if you're on Linux :(
+$ bower install
+$ gulp setup      # one-time copy of front-end libs to django /static
+$ gulp build
 ```
-git clone https://github.com/anxiousmodernman/yrbus
-cd yrbus
-npm install     # maybe sudo :(
-bower install
-gulp setup      # one-time copy of front-end libs to django /static
 
+## Backend (Python) project setup
 
+Create and activate a *yrbus* python virtualenv, then run:
+
+```bash
+$ pip install -r requirements.txt
 ```
 
+Once the dependencies are installed, do the initial database setup (migration), and start the test server.
 
+```
+$ ./manage.py migrate
+$ ./manage.py runserver
+```
+
+Your website should be running on `localhost:8000`
 
 ### Test data and various notes
-
-
 home location lat and long coords (for testing)
 * lat 38.9305561
 * lon -77.0230006
