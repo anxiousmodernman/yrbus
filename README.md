@@ -32,6 +32,8 @@ $ ./manage.py runserver
 
 Your website should be running on `localhost:8000`
 
+----
+
 ### Test data and various notes
 home location lat and long coords (for testing)
 * lat 38.9305561
