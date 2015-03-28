@@ -9,15 +9,24 @@ var CHANGE_EVENT = 'change';
 _locations = {};
 
 function createLocation(obj) {
-    if (!_locations.hasOwnProperty(obj.id)) {
+    var geocoder = new google.maps.Geocoder();
+    geocodeAddress(obj.address, geocoder, function(res, err) {
+
+        if (!_locations.hasOwnProperty(obj.id)) {
         _locations[obj.id] = obj;
+        _locations[obj.id].lat = res[0].geometry.location.k;
+        _locations[obj.id].lon = res[0].geometry.location.D;
     }
+
+    });
+
 }
 
-function geoCodeAddress(address) {
+function geocodeAddress(address, g, callback) {
+    g.geocode({"address": address}, callback);
 
-    
 }
+
 
 var LocationStore = assign({}, EventEmitter.prototype, {
 
