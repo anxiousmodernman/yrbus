@@ -13,10 +13,10 @@ function createLocation(obj) {
     geocodeAddress(obj.address, geocoder, function(res, err) {
 
         if (!_locations.hasOwnProperty(obj.id)) {
-        _locations[obj.id] = obj;
-        _locations[obj.id].lat = res[0].geometry.location.k;
-        _locations[obj.id].lon = res[0].geometry.location.D;
-    }
+            _locations[obj.id] = obj;
+            _locations[obj.id].lat = res[0].geometry.location.k;
+            _locations[obj.id].lon = res[0].geometry.location.D;
+        }
 
     });
 
