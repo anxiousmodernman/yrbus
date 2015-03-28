@@ -19,14 +19,14 @@ var App = React.createClass({
 
     render: function() {
         return <div>
-        <TopNavbar />
-        <div className="container-fluid row">
-                    <div className="col-md-2"></div>
+            <TopNavbar />
+            <div className="container-fluid row">
+                <div className="col-md-2"></div>
                     <div className="col-md-8 col-xs-12">
                         <RouteHandler/>
                     </div>
                     <div className="col-md-2"></div>
-        </div>
+            </div>
         </div>
     }
 });

@@ -1,16 +1,17 @@
-var React = require('react');
+var React = require('react/addons');
 var GoogleMap = require('./GoogleMap.jsx');
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
+var LocationStore = require('../stores/LocationStore');
+var LocationActions = require('../actions/LocationActions');
 
 
 var StopSetup = React.createClass({
 
     getInitialState: function() {
-        var state = {
+        return {
             viewState: 'gettingStarted'
         };
-        return state;
     },
 
     render: function() {
@@ -55,23 +56,61 @@ var ChooseStops = React.createClass({
     }
 });
 
+function getLocationStoreState() {
+    return {
+        loc: LocationStore.getAll()
+    };
+}
 
 var EnterLocation = React.createClass({
 
-    mixins: [Router.Navigation],
+    mixins: [
+        Router.Navigation,
+        React.addons.LinkedStateMixin
+    ],
+
+    getInitialState: function() {
+        return {
+            zipCode: ""
+        }
+    },
+
+    componentDidMount: function() {
+        LocationStore.addChangeListener(this._onChange);
+    },
+
+    componentWillUnmount: function() {
+        LocationStore.removeChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+        this.setState(getLocationStoreState());
+    },
+
 
     render: function() {
-        var message = 'Let\'s Go!';
         return (
             <div>
                 <h1>Enter Location</h1>
-
+                <p>First, we need to get your location. Enter your address code below.</p>
+                <div className="form-group">
+                <label htmlFor="address">SourceID</label>
+                <input name="address" valueLink={this.linkState('address')}
+                    type="text" className="login form-control" id="address" />
+                <br />
+                <button type="submit" className="btn btn-default btn-lg btn-block"
+                    onClick={this.handleClick}>Submit</button>
+                </div>
             </div>
         )
     },
 
     handleClick: function() {
-        //this.props.callback(this)
+        var loc = {
+            id: "Default",  // Default to "Default" from setup screen
+            address: this.state.address
+        };
+        LocationActions.create(loc)
     }
 });
 
@@ -85,6 +124,7 @@ var GettingStarted = React.createClass({
         return (
             <div>
                 <h1>Getting Started</h1>
+                <p>It looks like you don't have any bus stops configured. Let's change that!</p>
                 <button onClick={this.handleClick}>{'YEAH BABY'}</button>
             </div>
         )

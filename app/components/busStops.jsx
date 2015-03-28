@@ -34,7 +34,7 @@ var BusStops = React.createClass({
     render: function() {
     	var arrayLength = this.state.stops.length;
         if (arrayLength == 0) {
-           this.transitionTo('gettingStarted');
+           this.transitionTo('gettingStarted');  // todo this might cause problems in the render function
         }
         return <div>
             <GoogleMap />
@@ -43,7 +43,7 @@ var BusStops = React.createClass({
         </div>
     },
 
-    _onChange: function () {
+    _onChange: function() {
     	this.setState(getBusStopsState());
     }
 });

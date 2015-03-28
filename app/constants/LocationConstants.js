@@ -3,6 +3,7 @@
 var keymirror = require('keymirror');
 
 module.exports = keymirror({
-	ADD_STOP: null,
-	REMOVE_STOP: null
+	ADD_LOCATION: null,
+	REMOVE_LOCATION: null,
+    UPDATE_LOCATION: null
 });

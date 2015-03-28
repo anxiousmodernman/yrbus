@@ -16,6 +16,6 @@ var BusStopActions = {
 			stopId: stopId
 		});
 	}
-}
+};
 
 module.exports = BusStopActions;

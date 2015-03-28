@@ -24,8 +24,6 @@ var BusStopStore = assign({}, EventEmitter.prototype, {
 
     initialize: function(user) {
         //createStop(123);  // todo server call implementation
-        //createStop(456);
-        //createStop(789);
         console.log('BusStopStore initialize()');
     },
 
@@ -49,17 +47,17 @@ var BusStopStore = assign({}, EventEmitter.prototype, {
 		var action = payload.action;
 		var stopId;
 
-		switch(action.actionType) {
+		switch(payload.actionType) {
 			case BusStopConstants.ADD_STOP:
-				stopId = action.stopId;
-                 createStop(stopId);
-                 BusStopStore.emitChange();
-                 break;
-             case BusStopConstants.REMOVE_STOP:
-                 stopId = action.stopId;
-                 removeStop(stopId);
-                 BusStopStore.emitChange();
-                 break;
+                stopId = action.stopId;
+                createStop(stopId);
+                BusStopStore.emitChange();
+                break;
+            case BusStopConstants.REMOVE_STOP:
+                stopId = action.stopId;
+                removeStop(stopId);
+                BusStopStore.emitChange();
+                break;
 		}
 
 	})
