@@ -1,31 +1,60 @@
 var React = require('react');
+var LocationStore = require('../stores/LocationStore');
 
+
+
+function getActiveLocationFromLocationStore() {
+    var location = LocationStore.getActiveLocation();
+    return { activeLocation: location }
+}
 
 var GoogleMap = React.createClass({
 
-    getDefaultProps: function () {
-        return {
-            initialZoom: 8,
-            mapCenterLat: 43.6425569,
-            mapCenterLng: -79.4073126
-        };
+    centerMapOnActiveLocation: function() {
+        var latLon = this.getLatLongFromActiveLocation();
+        this.state.map.panTo(latLon);
     },
 
     componentDidMount: function() {
+        this.initializeMap();
+        LocationStore.addChangeListener(this._onChange);
+    },
 
+    componentWillUnmount: function() {
+        LocationStore.removeChangeListener(this._onChange);
+    },
+
+    getInitialState: function () {
+        return {
+            activeLocation: {
+                initialZoom: 10,  // 10 see all of DC
+                lat: 38.93047,
+                lon: -77.02283190000003 }
+        };
+    },
+
+    getLatLongFromActiveLocation: function() {
+        var state = this.state.activeLocation;
+        return new google.maps.LatLng(state.lat, state.lon);
+    },
+
+    initializeMap: function() {
+        console.log('calling initializeMap');
         var mapOptions = {
-                center: this.mapCenterLatLng(),
-                zoom: this.props.initialZoom
-            },
-            map = new google.maps.Map(this.getDOMNode(), mapOptions);
-        var marker = new google.maps.Marker({position: this.mapCenterLatLng(), title: 'Hi', map: map});
-        this.setState({map: map});
+            center: this.getLatLongFromActiveLocation(),
+            zoom: this.state.activeLocation.initialZoom
+        };
+        var map = new google.maps.Map(this.getDOMNode(), mapOptions);
+        this.setState({map: map});  // just access the map obj from this.state.map
+
     },
 
-    mapCenterLatLng: function () {
-        var props = this.props;
-        return new google.maps.LatLng(props.mapCenterLat, props.mapCenterLng);
+    _onChange: function() {
+        this.setState(getActiveLocationFromLocationStore());
+        this.centerMapOnActiveLocation();
+
     },
+
 
     render: function() {
         var styles = {

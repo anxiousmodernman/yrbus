@@ -2,29 +2,42 @@ var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var LocationConstants = require('../constants/LocationConstants');
-
+var Q = require('q');
 
 var CHANGE_EVENT = 'change';
 
 _locations = {};
 
 function createLocation(obj) {
-    var geocoder = new google.maps.Geocoder();
-    geocodeAddress(obj.address, geocoder, function(res, err) {
 
-        if (!_locations.hasOwnProperty(obj.id)) {
-            _locations[obj.id] = obj;
-            _locations[obj.id].lat = res[0].geometry.location.k;
-            _locations[obj.id].lon = res[0].geometry.location.D;
-        }
-
+    var result = geocodeAddress(obj.address);
+    return result.then(function(res) {
+        _locations[obj.id] = obj;
+        _locations[obj.id].lat = res[0].geometry.location.k;
+        _locations[obj.id].lon = res[0].geometry.location.D;
+        _locations[obj.id].active = true;
+        LocationStore.emitChange();
+    }, function(err){
+        console.log("Something messed up in your promise code");
+        console.log(err);
     });
 
 }
 
-function geocodeAddress(address, g, callback) {
-    g.geocode({"address": address}, callback);
+function geocodeAddress(address) {
 
+    var deferred = Q.defer();
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({"address": address}, function(res, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            deferred.resolve(res);
+        } else {
+            deferred.reject(new Error(status));
+        }
+    });
+
+    return deferred.promise;
 }
 
 
@@ -36,6 +49,20 @@ var LocationStore = assign({}, EventEmitter.prototype, {
 
     getAll: function() {
         return _locations;
+    },
+
+    getActiveLocation: function() {
+        for (var l in _locations) {
+            for (var prop in _locations[l]) {
+                if (_locations[l].hasOwnProperty(prop) &&
+                    prop == "active" &&
+                    _locations[l].active == true) {
+                    console.log("This object is active:");
+                    console.log(_locations[l]);
+                    return _locations[l];
+                }
+            }
+        }
     },
 
     emitChange: function() {
