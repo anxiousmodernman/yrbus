@@ -62,6 +62,10 @@ function getLocationStoreState() {
     };
 }
 
+function locationGeocodingSuccessful() {
+    return LocationStore.initialSetupSuccess()
+}
+
 var EnterLocation = React.createClass({
 
     mixins: [
@@ -85,10 +89,15 @@ var EnterLocation = React.createClass({
 
     _onChange: function() {
         this.setState(getLocationStoreState());
+        this.setState({ locationSet: locationGeocodingSuccessful() })
     },
 
 
     render: function() {
+
+        if (this.state.locationSet == true) {
+            this.transitionTo('chooseRoutes')
+        }
         return (
             <div>
                 <h1>Enter Location</h1>

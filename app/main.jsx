@@ -14,6 +14,7 @@ var TopNavbar = require('./components/topNavbar.jsx');
 var StopSetup= require('./components/StopSetup.jsx').StopSetup;
 var GettingStarted = require('./components/StopSetup.jsx').GettingStarted;
 var EnterLocation = require('./components/StopSetup.jsx').EnterLocation;
+var ChooseRoutes = require('./components/StopSetup.jsx').ChooseRoutes;
 
 var App = React.createClass({
 
@@ -40,6 +41,8 @@ var routes = (
                     handler={GettingStarted} />
                 <Route name="enterLocation"
                     handler={EnterLocation} />
+                <Route name="chooseRoutes"
+                    handler={ChooseRoutes} />
                 <DefaultRoute handler={GettingStarted} />
             </Route>
         </Route>

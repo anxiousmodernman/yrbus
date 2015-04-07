@@ -46,13 +46,11 @@ var GoogleMap = React.createClass({
         };
         var map = new google.maps.Map(this.getDOMNode(), mapOptions);
         this.setState({map: map});  // just access the map obj from this.state.map
-
     },
 
     _onChange: function() {
         this.setState(getActiveLocationFromLocationStore());
         this.centerMapOnActiveLocation();
-
     },
 
 

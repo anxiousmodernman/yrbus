@@ -8,19 +8,29 @@ var CHANGE_EVENT = 'change';
 
 _locations = {};
 
+_initialSetupSuccess = false;
+
+function setInitialSetupSuccess(result) {
+    _initialSetupSuccess = result;
+}
+
 function createLocation(obj) {
 
-    var result = geocodeAddress(obj.address);
-    return result.then(function(res) {
-        _locations[obj.id] = obj;
-        _locations[obj.id].lat = res[0].geometry.location.k;
-        _locations[obj.id].lon = res[0].geometry.location.D;
-        _locations[obj.id].active = true;
-        LocationStore.emitChange();
-    }, function(err){
-        console.log("Something messed up in your promise code");
-        console.log(err);
-    });
+    geocodeAddress(obj.address)
+        .then(function(res) {
+            var locationKey = obj.id;
+            var location = {
+                lat: res[0].geometry.location.k,
+                lon: res[0].geometry.location.D,
+                active: true
+            };
+            _locations[locationKey] = location;
+            setInitialSetupSuccess(true);
+            LocationStore.emitChange();
+        }, function(err){
+            console.log("Something messed up in your promise code");
+            console.log(err);
+        });
 
 }
 
@@ -28,7 +38,6 @@ function geocodeAddress(address) {
 
     var deferred = Q.defer();
     var geocoder = new google.maps.Geocoder();
-
     geocoder.geocode({"address": address}, function(res, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             deferred.resolve(res);
@@ -36,7 +45,6 @@ function geocodeAddress(address) {
             deferred.reject(new Error(status));
         }
     });
-
     return deferred.promise;
 }
 
@@ -63,6 +71,10 @@ var LocationStore = assign({}, EventEmitter.prototype, {
                 }
             }
         }
+    },
+
+    initialSetupSuccess: function() {
+        return _initialSetupSuccess;
     },
 
     emitChange: function() {
